@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 /**
  * This OpMode scans a single servo back and forwards until Stop is pressed.
@@ -48,7 +49,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Initial Test", group = "Concept")
+@TeleOp(name = "Initial Test")
 public class Arm extends LinearOpMode {
 
     // Define class members
@@ -64,35 +65,88 @@ public class Arm extends LinearOpMode {
 
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
+
+        //IDK
         base = hardwareMap.get(Servo.class, "base");
+        //Forward is positive
         first = hardwareMap.get(Servo.class, "first");
+        //Forward is negative
         middle = hardwareMap.get(Servo.class, "middle");
+        //Forward is positive
         last = hardwareMap.get(Servo.class, "last");
         claw = hardwareMap.get(Servo.class, "claw");
 
+        //initialize servos
+        base.setPosition(0.5);
+        first.setPosition(0.75);
+        middle.setPosition(0.5);
+        last.setPosition(0.8);
         // Wait for the start button
         //telemetry.addData(">", "Press Start to scan Servo." );
         telemetry.update();
         waitForStart();
-
-
+        double rotation = 0.5;
+        double lowServoPos = 0.75;
+        double midServoPos = 0.5;
+        double topServoPos = 0.8;
         // Scan servo till stop pressed.
         while(opModeIsActive()) {
-            base.setPosition(0.75);
-            first.setPosition(0.75);
-            middle.setPosition(0.75);
-            last.setPosition(0.75);
-            claw.setPosition(0.75);
+            //base
+            if(gamepad1.dpad_up){
+                rotation-=0.075;
+            }
+            if(gamepad1.dpad_down){
+                rotation+=0.075;
+            }
+            base.setPosition(rotation);
+            //low servo
+            if(gamepad1.left_stick_y < -0.3){
+                lowServoPos += 0.075;
+            }
+            if(gamepad1.left_stick_y > 0.3){
+                lowServoPos -= 0.075;
+            }
+            first.setPosition(lowServoPos);
 
+            if(gamepad1.right_stick_y < -0.3){
+                midServoPos += 0.075;
+            }
+            if(gamepad1.right_stick_y > 0.3){
+                midServoPos -= 0.075;
+            }
+            middle.setPosition(midServoPos);
 
-            // Signal done;
+            if(gamepad1.left_bumper){
+                topServoPos-=0.075;
+            }
+            if(gamepad1.right_bumper){
+                topServoPos+=0.075;
+            }
+            last.setPosition(topServoPos);
+
+            //claw
+            if(gamepad1.a) {
+                claw.setPosition(0.82);
+            }
+            if(gamepad1.b){
+                claw.setPosition(0.43);
+            }
+            if(gamepad1.x) {
+                claw.setPosition(0.645);
+            }
+            sleep(100);
             telemetry.addData(">Base: ", base.getPosition());
             telemetry.addData(">First: ", first.getPosition());
+            telemetry.addData(">UHOH", lowServoPos);
             telemetry.addData(">Middle: ", middle.getPosition());
             telemetry.addData(">Last: ", last.getPosition());
             telemetry.addData(">Claw: ", claw.getPosition());
-
             telemetry.update();
+            rotation = Range.clip(rotation,0,1);
+            lowServoPos = Range.clip(lowServoPos,0,1);
+            midServoPos = Range.clip(midServoPos,0,1);
+            topServoPos = Range.clip(topServoPos,0,1);
+
         }
     }
 }
