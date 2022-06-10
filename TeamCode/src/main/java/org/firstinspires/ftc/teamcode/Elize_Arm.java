@@ -79,6 +79,15 @@ public class Elize_Arm {
             clawPos -= 0.075;
         }
 
+        if(gamepad.right_trigger > 0.3) {
+            clawPos = 0.6;
+        }
+
+        if(gamepad.left_trigger > 0.3) {
+            clawPos = 0.77;
+        }
+
+
         //bounds
         rotation = Range.clip(rotation,0,1);
         clawPos = Range.clip(clawPos,0,1);

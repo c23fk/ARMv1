@@ -59,10 +59,10 @@ public class Felix_Arm {
 
         //mid servo
         if(gamepad.right_stick_y < -0.3){
-            midServoPos += 0.075;
+            midServoPos -= 0.075;
         }
         if(gamepad.right_stick_y > 0.3){
-            midServoPos -= 0.075;
+            midServoPos += 0.075;
         }
 
         //top servo
