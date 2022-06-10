@@ -29,44 +29,29 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
-/**
- * This OpMode scans a single servo back and forwards until Stop is pressed.
- * The code is structured as a LinearOpMode
- * INCREMENT sets how much to increase/decrease the servo position each cycle
- * CYCLE_MS sets the update period.
- *
- * This code assumes a Servo configured with the name "left_hand" as is found on a pushbot.
- *
- * NOTE: When any servo position is set, ALL attached servos are activated, so ensure that any other
- * connected servos are able to move freely before running this test.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-@TeleOp(name = "Initial Test")
+@TeleOp(name = "ARMS")
 public class Arm extends LinearOpMode {
-    Felix_Arm felix_arm = new Felix_Arm(gamepad1, hardwareMap);
+    private final Felix_Arm felix_arm = new Felix_Arm(gamepad1, hardwareMap);
+    private final Elize_Arm elize_arm = new Elize_Arm(gamepad2, hardwareMap);
     @Override
     public void runOpMode() {
         felix_arm.init();
+        elize_arm.init();
         telemetry.update();
-        waitForStart();;
+        waitForStart();
         while(opModeIsActive()) {
-            //base
             felix_arm.run();
-            sleep(100);
+            elize_arm.run();
             telemetry.addData(">Felix_Base: ", felix_arm.getBase());
             telemetry.addData(">Felix_First: ", felix_arm.getFirst());
             telemetry.addData(">Felix_Middle: ", felix_arm.getMiddle());
             telemetry.addData(">Felix_Last: ", felix_arm.getLast());
             telemetry.addData(">Felix_Claw: ", felix_arm.getClaw());
             telemetry.update();
+            sleep(100);
         }
     }
 }

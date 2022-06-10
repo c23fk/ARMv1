@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-public class Felix_Arm {
+public class Elize_Arm {
     private final Gamepad gamepad;
     private final HardwareMap hardwareMap;
     private Servo base;
@@ -18,7 +18,7 @@ public class Felix_Arm {
     private double midServoPos = 0.5;
     private double topServoPos = 0.8;
 
-    public Felix_Arm(Gamepad gamepad, HardwareMap hardwareMap) {
+    public Elize_Arm(Gamepad gamepad, HardwareMap hardwareMap) {
         this.gamepad = gamepad;
         this.hardwareMap = hardwareMap;
     }
