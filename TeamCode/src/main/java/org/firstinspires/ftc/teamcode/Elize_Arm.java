@@ -44,6 +44,12 @@ public class Elize_Arm {
 
     public void run(){
 
+        if (gamepad.left_bumper){
+            rotation = 0.725;
+            bigServoPos = 0.3;
+            smallServoPos = 0.525;
+        }
+
 
         if(gamepad.x) {
             rotation -= 0.075;
@@ -84,7 +90,7 @@ public class Elize_Arm {
         }
 
         if(gamepad.left_trigger > 0.3) {
-            clawPos = 0.77;
+            clawPos = 0.8;
         }
 
 

@@ -42,6 +42,14 @@ public class Felix_Arm {
 
     public void run(){
         //base servo
+
+        if(gamepad.left_trigger> .3){
+            rotation = 0.5;
+            topServoPos = .325;
+            midServoPos = 0.5;
+            lowServoPos = 0.4;
+        }
+
         if(gamepad.dpad_up){
             rotation-=0.075;
         }
