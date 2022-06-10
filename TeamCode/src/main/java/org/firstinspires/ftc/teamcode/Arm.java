@@ -34,10 +34,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "ARMS")
 public class Arm extends LinearOpMode {
-    private final Felix_Arm felix_arm = new Felix_Arm(gamepad1, hardwareMap);
-    private final Elize_Arm elize_arm = new Elize_Arm(gamepad2, hardwareMap);
+
     @Override
     public void runOpMode() {
+        final Felix_Arm felix_arm = new Felix_Arm(gamepad1, hardwareMap);
+        final Elize_Arm elize_arm = new Elize_Arm(gamepad2, hardwareMap);
         felix_arm.init();
         elize_arm.init();
         telemetry.update();
