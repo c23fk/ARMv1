@@ -8,15 +8,18 @@ import com.qualcomm.robotcore.util.Range;
 public class Elize_Arm {
     private final Gamepad gamepad;
     private final HardwareMap hardwareMap;
+
+    //servos
     private Servo base;
-    private Servo first;
-    private Servo middle;
-    private Servo last;
+    private Servo big;
+    private Servo small;
     private Servo claw;
+
+
     private double rotation = 0.5;
-    private double lowServoPos = 0.75;
-    private double midServoPos = 0.5;
-    private double topServoPos = 0.8;
+    private double clawPos = 0.75;
+    private double bigServoPos = 0.5;
+    private double smallServoPos = 0.8;
 
     public Elize_Arm(Gamepad gamepad, HardwareMap hardwareMap) {
         this.gamepad = gamepad;
@@ -24,87 +27,84 @@ public class Elize_Arm {
     }
 
     public void init(){
-        base = hardwareMap.get(Servo.class, "base");
+        base = hardwareMap.get(Servo.class, "Ebase");
         //Forward is positive
-        first = hardwareMap.get(Servo.class, "first");
+        big = hardwareMap.get(Servo.class, "big");
         //Forward is negative
-        middle = hardwareMap.get(Servo.class, "middle");
+        small = hardwareMap.get(Servo.class, "small");
         //Forward is positive
-        last = hardwareMap.get(Servo.class, "last");
-        claw = hardwareMap.get(Servo.class, "claw");
+        claw = hardwareMap.get(Servo.class, "SuperiorClaw");
 
         //initialize servos
-        base.setPosition(0.5);
-        first.setPosition(0.75);
-        middle.setPosition(0.5);
-        last.setPosition(0.8);
+        claw.setPosition(0);
+        base.setPosition(0);
+        big.setPosition(0);
+        small.setPosition(0);
     }
 
     public void run(){
         //base servo
-        if(gamepad.dpad_up){
-            rotation-=0.075;
-        }
-        if(gamepad.dpad_down){
-            rotation+=0.075;
-        }
-
-        //low servo
-        if(gamepad.left_stick_y < -0.3){
-            lowServoPos += 0.075;
-        }
-        if(gamepad.left_stick_y > 0.3){
-            lowServoPos -= 0.075;
-        }
-
-        //mid servo
-        if(gamepad.right_stick_y < -0.3){
-            midServoPos += 0.075;
-        }
-        if(gamepad.right_stick_y > 0.3){
-            midServoPos -= 0.075;
-        }
-
-        //top servo
-        if(gamepad.left_bumper){
-            topServoPos-=0.075;
-        }
-        if(gamepad.right_bumper){
-            topServoPos+=0.075;
-        }
+//        if(gamepad.dpad_up){
+//            rotation-=0.075;
+//        }
+//        if(gamepad.dpad_down){
+//            rotation+=0.075;
+//        }
+//
+//        //low servo
+//        if(gamepad.left_stick_y < -0.3){
+//            lowServoPos += 0.075;
+//        }
+//        if(gamepad.left_stick_y > 0.3){
+//            lowServoPos -= 0.075;
+//        }
+//
+//        //mid servo
+//        if(gamepad.right_stick_y < -0.3){
+//            midServoPos += 0.075;
+//        }
+//        if(gamepad.right_stick_y > 0.3){
+//            midServoPos -= 0.075;
+//        }
+//
+//        //top servo
+//        if(gamepad.left_bumper){
+//            topServoPos-=0.075;
+//        }
+//        if(gamepad.right_bumper){
+//            topServoPos+=0.075;
+//        }
 
         //claw
         if(gamepad.a) {
-            claw.setPosition(0.82);
-        }
-        if(gamepad.b){
-            claw.setPosition(0.43);
-        }
-        if(gamepad.x) {
-            claw.setPosition(0.645);
+            clawPos += 0.075;
         }
 
+        if(gamepad.y) {
+            clawPos -= 0.075;
+        }
+
+        //bounds
         rotation = Range.clip(rotation,0,1);
-        lowServoPos = Range.clip(lowServoPos,0,1);
-        midServoPos = Range.clip(midServoPos,0,1);
-        topServoPos = Range.clip(topServoPos,0,1);
+        clawPos = Range.clip(clawPos,0,1);
+        bigServoPos = Range.clip(bigServoPos,0,1);
+        smallServoPos = Range.clip(smallServoPos,0,1);
+
+        //sets position
         base.setPosition(rotation);
-        last.setPosition(topServoPos);
-        middle.setPosition(midServoPos);
-        first.setPosition(lowServoPos);
+        small.setPosition(smallServoPos);
+        big.setPosition(bigServoPos);
+        claw.setPosition(clawPos);
     }
     //functions for getting all servo positions with servo.getPosition()
     public double getBase(){
         return base.getPosition();
     }
     public double getFirst(){
-        return first.getPosition();
+        return big.getPosition();
     }
     public double getMiddle(){
-        return middle.getPosition();
-    }
-    public double getLast(){
-        return last.getPosition();
+        return small.getPosition();
     }
     public double getClaw(){
         return claw.getPosition();
