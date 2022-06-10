@@ -51,102 +51,22 @@ import com.qualcomm.robotcore.util.Range;
  */
 @TeleOp(name = "Initial Test")
 public class Arm extends LinearOpMode {
-
-    // Define class members
-    Servo base;
-    Servo first;
-    Servo middle;
-    Servo last;
-    Servo claw;
-
-
+    Felix_Arm felix_arm = new Felix_Arm(gamepad1, hardwareMap);
     @Override
     public void runOpMode() {
-
-        // Connect to servo (Assume PushBot Left Hand)
-        // Change the text in quotes to match any servo name on your robot.
-
-        //IDK
-        base = hardwareMap.get(Servo.class, "base");
-        //Forward is positive
-        first = hardwareMap.get(Servo.class, "first");
-        //Forward is negative
-        middle = hardwareMap.get(Servo.class, "middle");
-        //Forward is positive
-        last = hardwareMap.get(Servo.class, "last");
-        claw = hardwareMap.get(Servo.class, "claw");
-
-        //initialize servos
-        base.setPosition(0.5);
-        first.setPosition(0.75);
-        middle.setPosition(0.5);
-        last.setPosition(0.8);
-        // Wait for the start button
-        //telemetry.addData(">", "Press Start to scan Servo." );
+        felix_arm.init();
         telemetry.update();
-        waitForStart();
-        double rotation = 0.5;
-        double lowServoPos = 0.75;
-        double midServoPos = 0.5;
-        double topServoPos = 0.8;
-        // Scan servo till stop pressed.
+        waitForStart();;
         while(opModeIsActive()) {
             //base
-            if(gamepad1.dpad_up){
-                rotation-=0.075;
-            }
-            if(gamepad1.dpad_down){
-                rotation+=0.075;
-            }
-            base.setPosition(rotation);
-            //low servo
-            if(gamepad1.left_stick_y < -0.3){
-                lowServoPos += 0.075;
-            }
-            if(gamepad1.left_stick_y > 0.3){
-                lowServoPos -= 0.075;
-            }
-            first.setPosition(lowServoPos);
-
-            if(gamepad1.right_stick_y < -0.3){
-                midServoPos += 0.075;
-            }
-            if(gamepad1.right_stick_y > 0.3){
-                midServoPos -= 0.075;
-            }
-            middle.setPosition(midServoPos);
-
-            if(gamepad1.left_bumper){
-                topServoPos-=0.075;
-            }
-            if(gamepad1.right_bumper){
-                topServoPos+=0.075;
-            }
-            last.setPosition(topServoPos);
-
-            //claw
-            if(gamepad1.a) {
-                claw.setPosition(0.82);
-            }
-            if(gamepad1.b){
-                claw.setPosition(0.43);
-            }
-            if(gamepad1.x) {
-                claw.setPosition(0.645);
-            }
+            felix_arm.run();
             sleep(100);
-            telemetry.addData(">Base: ", base.getPosition());
-            telemetry.addData(">First: ", first.getPosition());
-            telemetry.addData(">UHOH", lowServoPos);
-            telemetry.addData(">Middle: ", middle.getPosition());
-            telemetry.addData(">Last: ", last.getPosition());
-            telemetry.addData(">Claw: ", claw.getPosition());
+            telemetry.addData(">Felix_Base: ", felix_arm.getBase());
+            telemetry.addData(">Felix_First: ", felix_arm.getFirst());
+            telemetry.addData(">Felix_Middle: ", felix_arm.getMiddle());
+            telemetry.addData(">Felix_Last: ", felix_arm.getLast());
+            telemetry.addData(">Felix_Claw: ", felix_arm.getClaw());
             telemetry.update();
-            rotation = Range.clip(rotation,0,1);
-            lowServoPos = Range.clip(lowServoPos,0,1);
-            midServoPos = Range.clip(midServoPos,0,1);
-            topServoPos = Range.clip(topServoPos,0,1);
-
         }
     }
 }
