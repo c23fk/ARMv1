@@ -36,10 +36,10 @@ public class Elize_Arm {
         claw = hardwareMap.get(Servo.class, "SuperiorClaw");
 
         //initialize servos
-        claw.setPosition(0);
-        base.setPosition(0);
-        big.setPosition(0);
-        small.setPosition(0);
+        claw.setPosition(0.5);
+//        base.setPosition(0);
+//        big.setPosition(0);
+//        small.setPosition(0);
     }
 
     public void run(){
