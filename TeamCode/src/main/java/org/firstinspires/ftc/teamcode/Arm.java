@@ -46,6 +46,10 @@ public class Arm extends LinearOpMode {
         while(opModeIsActive()) {
             felix_arm.run();
             elize_arm.run();
+            telemetry.addData(">Elize_Base: ", elize_arm.getBase());
+            telemetry.addData(">Elize_First: ", elize_arm.getFirst());
+            telemetry.addData(">Elize_Middle: ", elize_arm.getMiddle());
+            telemetry.addData(">Elize_Claw: ", elize_arm.getClaw());
             telemetry.addData(">Felix_Base: ", felix_arm.getBase());
             telemetry.addData(">Felix_First: ", felix_arm.getFirst());
             telemetry.addData(">Felix_Middle: ", felix_arm.getMiddle());

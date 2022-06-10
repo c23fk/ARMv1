@@ -17,9 +17,9 @@ public class Elize_Arm {
 
 
     private double rotation = 0.5;
-    private double clawPos = 0.75;
-    private double bigServoPos = 0.5;
-    private double smallServoPos = 0.8;
+    private double clawPos = 0.6;
+    private double bigServoPos = 0.725;
+    private double smallServoPos = 0.175;
 
     public Elize_Arm(Gamepad gamepad, HardwareMap hardwareMap) {
         this.gamepad = gamepad;
@@ -36,44 +36,39 @@ public class Elize_Arm {
         claw = hardwareMap.get(Servo.class, "SuperiorClaw");
 
         //initialize servos
-        claw.setPosition(0.5);
-//        base.setPosition(0);
-//        big.setPosition(0);
-//        small.setPosition(0);
+        claw.setPosition(clawPos);
+        base.setPosition(rotation);
+        big.setPosition(bigServoPos);
+        small.setPosition(smallServoPos);
     }
 
     public void run(){
-        //base servo
-//        if(gamepad.dpad_up){
-//            rotation-=0.075;
-//        }
-//        if(gamepad.dpad_down){
-//            rotation+=0.075;
-//        }
-//
-//        //low servo
-//        if(gamepad.left_stick_y < -0.3){
-//            lowServoPos += 0.075;
-//        }
-//        if(gamepad.left_stick_y > 0.3){
-//            lowServoPos -= 0.075;
-//        }
-//
-//        //mid servo
-//        if(gamepad.right_stick_y < -0.3){
-//            midServoPos += 0.075;
-//        }
-//        if(gamepad.right_stick_y > 0.3){
-//            midServoPos -= 0.075;
-//        }
-//
-//        //top servo
-//        if(gamepad.left_bumper){
-//            topServoPos-=0.075;
-//        }
-//        if(gamepad.right_bumper){
-//            topServoPos+=0.075;
-//        }
+
+
+        if(gamepad.x) {
+            rotation -= 0.075;
+        }
+
+        if(gamepad.b) {
+            rotation += 0.075;
+        }
+
+        if(gamepad.right_stick_y > 0.3) {
+            bigServoPos += 0.075;
+        }
+
+        if(gamepad.right_stick_y < -0.3) {
+            bigServoPos -= 0.075;
+        }
+
+        if(gamepad.left_stick_y > 0.3) {
+            smallServoPos -= 0.075;
+        }
+
+        if(gamepad.left_stick_y < -0.3) {
+            smallServoPos += 0.075;
+        }
+
 
         //claw
         if(gamepad.a) {
